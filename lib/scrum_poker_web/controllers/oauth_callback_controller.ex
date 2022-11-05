@@ -14,23 +14,16 @@ defmodule ScrumPokerWeb.OAuthCallbackController do
   def new(conn, params) do
     %{"provider" => "github", "code" => code, "state" => state} = params
 
-    with {:ok, access_token} <- Github.exchange_oauth_code(code, state),
-         {:ok, user} <- Accounts.register_github_user(access_token) do
+    with {:ok, github_token} <- Github.exchange_oauth_code(code, state),
+         {:ok, user} <- Github.get_user(github_token),
+         {:ok, email} <- Github.get_user_primary_email(github_token),
+         attrs = Map.merge(user, %{github_token: github_token, email: email}),
+         {:ok, user} <- Accounts.register_github_user(attrs) do
       conn
       |> put_flash(:info, "Welcome #{user.email}")
       |> log_in_user(user)
     else
-      {:error, %Ecto.Changeset{} = changeset} ->
-        Logger.error("failed GitHub insert #{inspect(changeset.errors)}")
-
-        conn
-        |> put_flash(
-          :error,
-          "We were unable to fetch the necessary information from your GithHub account"
-        )
-        |> redirect(to: "/")
-
-      {:error, reason} ->
+      reason ->
         Logger.error("failed GitHub exchange #{inspect(reason)}")
 
         conn

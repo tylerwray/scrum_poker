@@ -65,18 +65,15 @@ defmodule ScrumPoker.Accounts do
   """
   def get_user_by(opts), do: Repo.get_by(User, opts)
 
-  def register_github_user(github_token) do
-    if user = get_user_by(email: "wraytw@gmail.com") do
-      update_user(user, %{github_token: github_token})
+  def register_github_user(attrs) do
+    if user = get_user_by(email: attrs.email) do
+      update_user(user, %{github_token: attrs.github_token})
     else
       create_user(%{
-        avatar_url: "https://avatars.githubusercontent.com/u/15827892?v=4",
-        deck_color: "purple",
-        deck_sequence: :linear,
-        display_name: "TWray",
-        email: "wraytw@gmail.com",
-        github_token: github_token,
-        uuid: Ecto.UUID.generate()
+        avatar_url: attrs.avatar_url,
+        display_name: attrs.display_name,
+        email: attrs.email,
+        github_token: attrs.github_token
       })
     end
   end
@@ -94,7 +91,7 @@ defmodule ScrumPoker.Accounts do
 
   """
   def create_user(attrs \\ %{}) do
-    %User{}
+    %User{uuid: Ecto.UUID.generate()}
     |> User.changeset(attrs)
     |> Repo.insert()
   end

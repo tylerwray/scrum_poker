@@ -45,7 +45,7 @@ defmodule ScrumPokerWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {ScrumPokerWeb.LayoutView, "live.html"}
+        layout: {ScrumPokerWeb.LayoutView, :live}
 
       unquote(view_helpers())
     end
@@ -96,6 +96,7 @@ defmodule ScrumPokerWeb do
       import Phoenix.View
 
       import ScrumPokerWeb.ErrorHelpers
+      import ScrumPokerWeb.LiveHelpers
       import ScrumPokerWeb.Gettext
       alias ScrumPokerWeb.Router.Helpers, as: Routes
     end
