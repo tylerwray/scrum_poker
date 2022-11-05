@@ -20,6 +20,10 @@ if System.get_env("PHX_SERVER") do
   config :scrum_poker, ScrumPokerWeb.Endpoint, server: true
 end
 
+config :scrum_poker, :github,
+  client_id: System.get_env("GITHUB_CLIENT_ID"),
+  client_secret: System.get_env("GITHUB_CLIENT_SECRET")
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||
