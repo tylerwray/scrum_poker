@@ -50,6 +50,19 @@ defmodule ScrumPoker.Accounts do
 
   """
   def get_user(id), do: Repo.get(User, id)
+
+  @doc """
+  Gets a single user by a specific attribute.
+
+  ## Examples
+
+      iex> get_user_by(uuid: "cdcc2fd3-09e5-4631-949e-4014a2e4e7b9")
+      %User{}
+
+      iex> get_user(email: "test@example.com")
+      nil
+
+  """
   def get_user_by(opts), do: Repo.get_by(User, opts)
 
   def register_github_user(github_token) do
