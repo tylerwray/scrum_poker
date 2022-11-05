@@ -159,10 +159,20 @@ defmodule ScrumPokerWeb.LiveHelpers do
       </.dropdown>
   """
   attr :id, :string, required: true
-  attr :img, :list, default: []
-  attr :title, :list, default: []
-  attr :subtitle, :list, default: []
-  attr :link, :list, default: []
+
+  slot(:inner_block, required: true)
+
+  slot :img do
+    attr :src, :string, required: true
+  end
+
+  slot(:title)
+  slot(:subtitle)
+
+  slot :link do
+    attr :href, :string
+    attr :method, :atom
+  end
 
   def dropdown(assigns) do
     ~H"""
