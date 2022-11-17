@@ -47,11 +47,23 @@ defmodule ScrumPokerWeb.GameLive do
 
     socket =
       socket
-      |> assign(:game, Poker.get_game_by(join_code: join_code))
       |> assign(:current_user, socket.assigns.current_user)
       |> assign(:selected_card, nil)
+      |> assign_game(join_code)
 
     {:ok, socket}
+  end
+
+  defp assign_game(socket, join_code) do
+    case Poker.get_game_by(join_code: join_code) do
+      nil ->
+        socket
+        |> push_navigate(to: "/")
+        |> put_flash(:error, "Game #{join_code} does not exist.")
+
+      game ->
+        assign(socket, :game, game)
+    end
   end
 
   def handle_event("select_card", %{"card" => card}, socket) do
