@@ -3,13 +3,12 @@ defmodule ScrumPoker.Repo.Migrations.CreateUsers do
 
   def change do
     create table(:users) do
-      add :uuid, :uuid
-      add :email, :string
-      add :display_name, :string
+      add :uuid, :uuid, null: false
       add :avatar_url, :string
-      add :github_token, :string
-      add :deck_sequence, :string
       add :deck_color, :string
+      add :display_name, :string
+      add :email, :string
+      add :github_token, :string
 
       timestamps()
     end

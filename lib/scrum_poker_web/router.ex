@@ -1,6 +1,8 @@
 defmodule ScrumPokerWeb.Router do
   use ScrumPokerWeb, :router
-  import ScrumPokerWeb.UserAuth, only: [redirect_if_user_is_authenticated: 2]
+
+  import ScrumPokerWeb.UserAuth,
+    only: [redirect_if_user_is_authenticated: 2, put_anonymous_user: 2]
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -28,12 +30,17 @@ defmodule ScrumPokerWeb.Router do
     delete "/signout", OAuthCallbackController, :sign_out
 
     live_session :default, on_mount: [{ScrumPokerWeb.UserAuth, :current_user}] do
+      pipe_through [:put_anonymous_user]
+
       live "/signin", SignInLive, :index
+      live "/games/:join_code", GameLive, :index
     end
 
     live_session :authenticated,
       on_mount: [{ScrumPokerWeb.UserAuth, :ensure_authenticated}] do
-      live "/join-game", JoinGameLive, :index
+      live "/home", HomeLive, :index
+      live "/games/:join_code/host", HostLive, :index
+      live "/profile/settings", SettingsLive, :edit
     end
   end
 

@@ -11,6 +11,7 @@ defmodule ScrumPoker.Application do
       ScrumPoker.Repo,
       ScrumPokerWeb.Telemetry,
       {Phoenix.PubSub, name: ScrumPoker.PubSub},
+      ScrumPokerWeb.Presence,
       ScrumPokerWeb.Endpoint
     ]
 

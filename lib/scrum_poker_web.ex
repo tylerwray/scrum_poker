@@ -96,7 +96,7 @@ defmodule ScrumPokerWeb do
       import Phoenix.View
 
       import ScrumPokerWeb.ErrorHelpers
-      import ScrumPokerWeb.LiveHelpers
+      import ScrumPokerWeb.FormComponents
       import ScrumPokerWeb.Gettext
       alias ScrumPokerWeb.Router.Helpers, as: Routes
     end

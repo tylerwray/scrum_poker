@@ -15,6 +15,12 @@ defmodule ScrumPokerWeb.UserAuth do
       %{"user_id" => user_id} ->
         {:cont, Component.assign_new(socket, :current_user, fn -> Accounts.get_user(user_id) end)}
 
+      %{"anonymous_user" => anonymous_user} ->
+        {:cont,
+         socket
+         |> Component.assign_new(:anonymous_user, fn -> anonymous_user end)
+         |> Component.assign(:current_user, nil)}
+
       %{} ->
         {:cont, Component.assign(socket, :current_user, nil)}
     end
@@ -65,7 +71,7 @@ defmodule ScrumPokerWeb.UserAuth do
   end
 
   def signed_in_path(conn) do
-    Routes.join_game_path(conn, :index)
+    Routes.home_path(conn, :index)
   end
 
   @doc """
@@ -89,6 +95,14 @@ defmodule ScrumPokerWeb.UserAuth do
     |> put_session(:user_id, user.id)
     |> put_session(:live_socket_id, "users_sessions:#{user.id}")
     |> redirect(to: user_return_to || signed_in_path(conn))
+  end
+
+  def put_anonymous_user(conn, _opts) do
+    if get_session(conn, "anonymous_user") do
+      conn
+    else
+      put_session(conn, :anonymous_user, Accounts.create_anonymous_user())
+    end
   end
 
   defp renew_session(conn) do

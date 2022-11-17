@@ -142,4 +142,22 @@ defmodule ScrumPoker.Accounts do
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
   end
+
+  def create_anonymous_user do
+    %{uuid: Ecto.UUID.generate(), display_name: "Anonymous #{random_animal()}"}
+  end
+
+  defp random_animal do
+    Enum.random([
+      "Rabbit",
+      "Aardvark",
+      "Giraffe",
+      "Kitten",
+      "Dog",
+      "Wolf",
+      "Hen",
+      "Chicken",
+      "Donkey"
+    ])
+  end
 end

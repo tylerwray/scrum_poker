@@ -8,7 +8,14 @@ defmodule ScrumPoker.AccountsTest do
 
     import ScrumPoker.AccountsFixtures
 
-    @invalid_attrs %{avatar_url: nil, deck_color: nil, deck_sequence: nil, display_name: nil, email: nil, github_token: nil, uuid: nil}
+    @invalid_attrs %{
+      avatar_url: nil,
+      deck_color: nil,
+      display_name: nil,
+      email: nil,
+      github_token: nil,
+      uuid: nil
+    }
 
     test "list_users/0 returns all users" do
       user = user_fixture()
@@ -21,12 +28,18 @@ defmodule ScrumPoker.AccountsTest do
     end
 
     test "create_user/1 with valid data creates a user" do
-      valid_attrs = %{avatar_url: "some avatar_url", deck_color: "some deck_color", deck_sequence: :linear, display_name: "some display_name", email: "some email", github_token: "some github_token", uuid: "7488a646-e31f-11e4-aace-600308960662"}
+      valid_attrs = %{
+        avatar_url: "some avatar_url",
+        deck_color: "some deck_color",
+        display_name: "some display_name",
+        email: "some email",
+        github_token: "some github_token",
+        uuid: "7488a646-e31f-11e4-aace-600308960662"
+      }
 
       assert {:ok, %User{} = user} = Accounts.create_user(valid_attrs)
       assert user.avatar_url == "some avatar_url"
       assert user.deck_color == "some deck_color"
-      assert user.deck_sequence == :linear
       assert user.display_name == "some display_name"
       assert user.email == "some email"
       assert user.github_token == "some github_token"
@@ -39,12 +52,20 @@ defmodule ScrumPoker.AccountsTest do
 
     test "update_user/2 with valid data updates the user" do
       user = user_fixture()
-      update_attrs = %{avatar_url: "some updated avatar_url", deck_color: "some updated deck_color", deck_sequence: :tshirt, display_name: "some updated display_name", email: "some updated email", github_token: "some updated github_token", uuid: "7488a646-e31f-11e4-aace-600308960668"}
+
+      update_attrs = %{
+        avatar_url: "some updated avatar_url",
+        deck_color: "some updated deck_color",
+        deck_sequence: :tshirt,
+        display_name: "some updated display_name",
+        email: "some updated email",
+        github_token: "some updated github_token",
+        uuid: "7488a646-e31f-11e4-aace-600308960668"
+      }
 
       assert {:ok, %User{} = user} = Accounts.update_user(user, update_attrs)
       assert user.avatar_url == "some updated avatar_url"
       assert user.deck_color == "some updated deck_color"
-      assert user.deck_sequence == :tshirt
       assert user.display_name == "some updated display_name"
       assert user.email == "some updated email"
       assert user.github_token == "some updated github_token"
