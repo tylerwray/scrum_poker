@@ -52,22 +52,13 @@ defmodule ScrumPokerWeb.UserAuth do
   Used for routes that require the user to not be authenticated.
   """
   def redirect_if_user_is_authenticated(conn, _opts) do
-    if conn.assigns[:current_user] do
+    if get_session(conn, :user_id) do
       conn
       |> redirect(to: signed_in_path(conn))
       |> halt()
     else
       conn
     end
-  end
-
-  @doc """
-  Authenticates the user by looking into the session.
-  """
-  def fetch_current_user(conn, _opts) do
-    user_id = get_session(conn, :user_id)
-    user = user_id && Accounts.get_user(user_id)
-    assign(conn, :current_user, user)
   end
 
   def signed_in_path(conn) do
@@ -98,7 +89,7 @@ defmodule ScrumPokerWeb.UserAuth do
   end
 
   def put_anonymous_user(conn, _opts) do
-    if get_session(conn, "anonymous_user") do
+    if get_session(conn, :anonymous_user) do
       conn
     else
       put_session(conn, :anonymous_user, Accounts.create_anonymous_user())

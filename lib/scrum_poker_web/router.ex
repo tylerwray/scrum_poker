@@ -20,27 +20,29 @@ defmodule ScrumPokerWeb.Router do
   scope "/", ScrumPokerWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
+    get "/", RedirectController, :redirect_authenticated
     get "/oauth/callbacks/:provider", OAuthCallbackController, :new
+
+    live_session :signin, on_mount: [{ScrumPokerWeb.UserAuth, :current_user}] do
+      live "/signin", SignInLive, :index
+    end
   end
 
   scope "/", ScrumPokerWeb do
     pipe_through :browser
 
-    get "/", RedirectController, :redirect_authenticated
     delete "/signout", OAuthCallbackController, :sign_out
 
-    live_session :default, on_mount: [{ScrumPokerWeb.UserAuth, :current_user}] do
-      pipe_through [:put_anonymous_user]
-
-      live "/signin", SignInLive, :index
-      live "/games/:join_code", GameLive, :index
-    end
-
-    live_session :authenticated,
-      on_mount: [{ScrumPokerWeb.UserAuth, :ensure_authenticated}] do
+    live_session :default, on_mount: [{ScrumPokerWeb.UserAuth, :ensure_authenticated}] do
       live "/home", HomeLive, :index
       live "/games/:join_code/host", HostLive, :index
       live "/profile/settings", SettingsLive, :edit
+    end
+
+    live_session :anonymous_user, on_mount: [{ScrumPokerWeb.UserAuth, :current_user}] do
+      pipe_through [:put_anonymous_user]
+
+      live "/games/:join_code", GameLive, :index
     end
   end
 
