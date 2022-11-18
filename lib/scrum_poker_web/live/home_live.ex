@@ -5,6 +5,7 @@ defmodule ScrumPokerWeb.HomeLive do
   import ScrumPokerWeb.Modal
   alias ScrumPokerWeb.JoinGameForm
   alias ScrumPoker.Poker
+  alias Phoenix.LiveView.JS
 
   def render(assigns) do
     ~H"""
@@ -14,10 +15,26 @@ defmodule ScrumPokerWeb.HomeLive do
         <div class="text-xl sm:text-2xl font-light tracking-wide text-gray-400">
           Start a game and invite your team.
         </div>
-        <div class="pt-12">
+        <div class="pt-12 grid justify-start items-center">
           <.button variant="solid" size="lg" phx-click={show_modal("#description")}>
             New Game
           </.button>
+
+          <%= if @existing_game do %>
+            <div class="relative flex py-3 items-center">
+              <div class="flex-grow border-t border-gray-700"></div>
+              <span class="flex-shrink mx-4 text-gray-300">or</span>
+              <div class="flex-grow border-t border-gray-700"></div>
+            </div>
+
+            <.button
+              variant="outline"
+              color="gray"
+              phx-click={JS.navigate("/games/#{@existing_game.join_code}/host")}
+            >
+              Continue <%= @existing_game.join_code %>
+            </.button>
+          <% end %>
         </div>
       </div>
       <.modal>
@@ -67,10 +84,12 @@ defmodule ScrumPokerWeb.HomeLive do
   end
 
   def mount(_params, _session, socket) do
-    {:ok,
-     assign(socket, %{
-       description_error: nil
-     })}
+    socket =
+      socket
+      |> assign(:existing_game, Poker.get_game_by(created_by: socket.assigns.current_user.uuid))
+      |> assign(:description_error, nil)
+
+    {:ok, socket}
   end
 
   def handle_event("new_game", params, socket) do

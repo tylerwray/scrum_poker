@@ -16,7 +16,8 @@ defmodule ScrumPokerWeb.FormComponents do
     "outline" => %{
       "primary" =>
         "shadow text-purple-400 hover:bg-purple-400/20 bg-transparent border-2 border-current ring-purple-400 ring-offset-gray-900",
-      "gray" => ""
+      "gray" =>
+        "shadow text-gray-100 hover:bg-gray-300/20 bg-transparent border-2 border-current ring-current ring-offset-gray-900",
     },
     "solid" => %{
       "primary" =>
@@ -27,7 +28,7 @@ defmodule ScrumPokerWeb.FormComponents do
       "primary" =>
         "bg-transparent shadow-none hover:shadow text-purple-400 hover:bg-purple-400/20 ring-purple-400 ring-offset-gray-900",
       "gray" =>
-        "bg-transparent shadow-none hover:shadow text-gray-200 hover:bg-gray-300/20 ring-current ring-offset-gray-900"
+        "bg-transparent shadow-none hover:shadow text-gray-100 hover:bg-gray-300/20 ring-current ring-offset-gray-900"
     },
     "link" => %{
       "primary" =>
