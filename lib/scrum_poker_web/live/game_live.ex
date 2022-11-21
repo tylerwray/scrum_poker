@@ -9,7 +9,7 @@ defmodule ScrumPokerWeb.GameLive do
   def render(assigns) do
     ~H"""
     <%= if is_nil(@current_user) do %>
-      <.anonymous_nav />
+      <.anonymous_nav display_name={@display_name}  />
     <% end %>
     <div class="mx-auto max-w-6xl px-12">
       <h2 class="text-lg font-light text-center">
@@ -53,6 +53,7 @@ defmodule ScrumPokerWeb.GameLive do
       socket
       |> assign(:current_user, socket.assigns.current_user)
       |> assign(:deck_color, user_deck_color(socket.assigns))
+      |> assign(:display_name, user_display_name(socket.assigns))
       |> assign(:selected_card, nil)
       |> assign_game(join_code)
 

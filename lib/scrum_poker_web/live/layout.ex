@@ -3,6 +3,8 @@ defmodule ScrumPokerWeb.Layout do
 
   alias Phoenix.LiveView.JS
 
+  attr :display_name, :string, required: true
+
   def anonymous_nav(assigns) do
     ~H"""
     <nav class="grid sm:grid-cols-[1fr_auto] grid-cols-1 gap-4 items-center sm:justify-items-start justify-items-center p-6 max-w-6xl mx-auto">
@@ -22,6 +24,7 @@ defmodule ScrumPokerWeb.Layout do
           <span class="pl-1">Sign in</span>
         </.button>
       </.link>
+      <h2 class="text-lg"><%= @display_name %></h2>
     </nav>
     """
   end
