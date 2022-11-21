@@ -17,7 +17,7 @@ defmodule ScrumPokerWeb.FormComponents do
       "primary" =>
         "shadow text-purple-400 hover:bg-purple-400/20 bg-transparent border-2 border-current ring-purple-400 ring-offset-gray-900",
       "gray" =>
-        "shadow text-gray-100 hover:bg-gray-300/20 bg-transparent border-2 border-current ring-current ring-offset-gray-900",
+        "shadow text-gray-100 hover:bg-gray-300/20 bg-transparent border-2 border-current ring-current ring-offset-gray-900"
     },
     "solid" => %{
       "primary" =>
@@ -65,6 +65,7 @@ defmodule ScrumPokerWeb.FormComponents do
   attr :legend, :string, required: true
   attr :name, :string, required: true
   attr :class, :string, default: ""
+  attr :value, :string, default: nil
 
   slot :radio do
     attr :value, :string, required: true
@@ -90,6 +91,7 @@ defmodule ScrumPokerWeb.FormComponents do
             value={radio.value}
             type="radio"
             class="mt-[2px] border-gray-700 bg-gray-800 text-purple-400/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-400/90 focus:ring-offset-gray-900"
+            checked={@value == radio.value}
             {assigns_to_attributes(radio)}
           />
           <label for={"#{@name}-#{radio.value}"} class="text-sm font-medium text-gray-50">
