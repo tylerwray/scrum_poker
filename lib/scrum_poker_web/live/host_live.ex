@@ -20,12 +20,13 @@ defmodule ScrumPokerWeb.HostLive do
       </p>
       <div class="text-center pb-8">
         <.button phx-click="toggle_cards" variant="outline">Toggle Results</.button>
+        <.button phx-click="reset_selections" variant="ghost">Reset</.button>
       </div>
       <div class="grid grid-cols-4 gap-12">
-        <%= for {user_uuid, %{display_name: display_name}} <- @users do %>
+        <%= for {user_uuid, %{display_name: display_name, deck_color: deck_color}} <- @users do %>
           <div class="grid justify-items-center gap-1">
             <%= if @selections[user_uuid] do %>
-              <.card is_flipped={@is_cards_shown}><%= @selections[user_uuid] %></.card>
+              <.card is_flipped={@is_cards_shown} color={deck_color}><%= @selections[user_uuid] %></.card>
             <% else %>
               <.waiting />
             <% end %>
@@ -38,10 +39,8 @@ defmodule ScrumPokerWeb.HostLive do
   end
 
   def mount(%{"join_code" => join_code}, _session, socket) do
-    topic = "game:#{join_code}"
-
     if connected?(socket) do
-      ScrumPokerWeb.Endpoint.subscribe(topic)
+      ScrumPokerWeb.Endpoint.subscribe(topic(join_code))
     end
 
     socket =
@@ -50,7 +49,7 @@ defmodule ScrumPokerWeb.HostLive do
       |> assign(:users, %{})
       |> assign(:selections, %{})
       |> assign(:is_cards_shown, false)
-      |> handle_joins(Presence.list(topic))
+      |> handle_joins(Presence.list(topic(join_code)))
 
     {:ok, socket}
   end
@@ -71,7 +70,21 @@ defmodule ScrumPokerWeb.HostLive do
     {:noreply, assign(socket, :is_cards_shown, !socket.assigns.is_cards_shown)}
   end
 
-  def handle_info(%Phoenix.Socket.Broadcast{event: "presence_diff", payload: diff}, socket) do
+  def handle_event("reset_selections", _params, socket) do
+    ScrumPokerWeb.Endpoint.broadcast(
+      topic(socket.assigns.game.join_code),
+      "selections.reset",
+      %{}
+    )
+
+    socket =
+      socket
+      |> assign(:selections, %{})
+
+    {:noreply, socket}
+  end
+
+  def handle_info(%{event: "presence_diff", payload: diff}, socket) do
     socket =
       socket
       |> handle_leaves(diff.leaves)
@@ -97,6 +110,10 @@ defmodule ScrumPokerWeb.HostLive do
     Enum.reduce(leaves, socket, fn {user_uuid, _}, socket ->
       assign(socket, :users, Map.delete(socket.assigns.users, user_uuid))
     end)
+  end
+
+  defp topic(join_code) do
+    "game:#{join_code}"
   end
 
   defp waiting(assigns) do

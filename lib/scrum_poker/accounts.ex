@@ -144,7 +144,7 @@ defmodule ScrumPoker.Accounts do
   end
 
   def create_anonymous_user do
-    %{uuid: Ecto.UUID.generate(), display_name: "Anonymous #{random_animal()}"}
+    %{uuid: Ecto.UUID.generate(), display_name: "Anonymous #{random_animal()}", deck_color: Enum.random(User.preset_deck_colors())}
   end
 
   defp random_animal do

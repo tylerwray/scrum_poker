@@ -46,4 +46,6 @@ defmodule ScrumPoker.Accounts.User do
     |> validate_required(:email, message: "Must include email.")
     |> unique_constraint(:uuid)
   end
+
+  def preset_deck_colors, do: @preset_deck_colors
 end

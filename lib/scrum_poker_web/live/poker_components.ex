@@ -16,11 +16,11 @@ defmodule ScrumPokerWeb.PokerComponents do
     "orange_blue_gradient" => "bg-gradient-to-b from-orange-500 to-blue-500",
     "orange_purple_gradient" => "bg-gradient-to-tr from-orange-400 to-purple-500",
     "yellow_red_gradient" => "bg-gradient-to-tl from-red-500 to-yellow-400",
-    "teal_yellow_gradient" => "bg-gradient-to-br from-teal-400 to-yellow-300",
+    "teal_yellow_gradient" => "bg-gradient-to-br from-teal-600 to-yellow-400",
     "red_green_gradient" => "bg-gradient-to-bl from-red-500 to-green-500"
   }
 
-  attr :color, :string, default: "pink_purple_gradient"
+  attr :color, :string
   attr :is_flipped, :boolean, default: false
   attr :is_selected, :boolean, default: false
   attr :size, :string, default: "sm"
@@ -29,11 +29,13 @@ defmodule ScrumPokerWeb.PokerComponents do
   slot(:inner_block)
 
   def card(assigns) do
+    color = Map.get(assigns, :color) ||  "pink_purple_gradient"
+
     assigns =
       assigns
       |> assign(:base_classes, @base_classes)
       |> assign(:size_classes, @size_classes[assigns.size])
-      |> assign(:color_classes, @color_classes[assigns.color])
+      |> assign(:color_classes, @color_classes[color])
 
     ~H"""
     <div class="card-scene">

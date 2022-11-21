@@ -26,6 +26,7 @@ defmodule ScrumPokerWeb.GameLive do
           <.card
             is_flipped
             is_selected={@selected_card == card}
+            color={@deck_color}
             phx-click="select_card"
             phx-value-card={card}
           >
@@ -39,15 +40,19 @@ defmodule ScrumPokerWeb.GameLive do
 
   def mount(%{"join_code" => join_code}, _session, socket) do
     if connected?(socket) do
-      Presence.track(self(), topic(join_code), user_uuid(socket), %{
+      ScrumPokerWeb.Endpoint.subscribe(topic(join_code))
+
+      Presence.track(self(), topic(join_code), user_uuid(socket.assigns), %{
         online_at: inspect(System.system_time(:second)),
-        display_name: user_display_name(socket)
+        display_name: user_display_name(socket.assigns),
+        deck_color: user_deck_color(socket.assigns)
       })
     end
 
     socket =
       socket
       |> assign(:current_user, socket.assigns.current_user)
+      |> assign(:deck_color, user_deck_color(socket.assigns))
       |> assign(:selected_card, nil)
       |> assign_game(join_code)
 
@@ -70,29 +75,45 @@ defmodule ScrumPokerWeb.GameLive do
     ScrumPokerWeb.Endpoint.broadcast(
       topic(socket.assigns.game.join_code),
       "card.selected",
-      %{"user_uuid" => user_uuid(socket), "card" => card}
+      %{"user_uuid" => user_uuid(socket.assigns), "card" => card}
     )
 
     {:noreply, assign(socket, :selected_card, card)}
+  end
+
+  def handle_info(%{event: "selections.reset"}, socket) do
+    {:noreply, assign(socket, :selected_card, nil)}
+  end
+
+  def handle_info(_broadcast, socket) do
+    {:noreply, socket}
   end
 
   defp topic(join_code) do
     "game:#{join_code}"
   end
 
-  defp user_uuid(%{assigns: %{current_user: %{uuid: uuid}}}) do
+  defp user_uuid(%{current_user: %{uuid: uuid}}) do
     uuid
   end
 
-  defp user_uuid(%{assigns: %{anonymous_user: %{uuid: uuid}}}) do
+  defp user_uuid(%{anonymous_user: %{uuid: uuid}}) do
     uuid
   end
 
-  defp user_display_name(%{assigns: %{current_user: %{display_name: display_name}}}) do
+  defp user_display_name(%{current_user: %{display_name: display_name}}) do
     display_name
   end
 
-  defp user_display_name(%{assigns: %{anonymous_user: %{display_name: display_name}}}) do
+  defp user_display_name(%{anonymous_user: %{display_name: display_name}}) do
     display_name
+  end
+
+  defp user_deck_color(%{current_user: %{deck_color: deck_color}}) do
+    deck_color
+  end
+
+  defp user_deck_color(%{anonymous_user: %{deck_color: deck_color}}) do
+    deck_color
   end
 end
