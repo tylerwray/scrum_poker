@@ -3,7 +3,6 @@ defmodule ScrumPokerWeb.SettingsLive do
   use Phoenix.Component
   import ScrumPokerWeb.PokerComponents
 
-  alias Phoenix.LiveView.JS
   alias ScrumPoker.Accounts
   alias Phoenix.HTML.Form
 
