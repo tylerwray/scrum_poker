@@ -63,6 +63,8 @@ defmodule ScrumPokerWeb.JoinGameForm do
   def handle_event("join_game", %{"join_code" => join_code}, socket) do
     socket = assign(socket, error: nil)
 
+    join_code = String.upcase(join_code)
+
     cond do
       join_code == "" ->
         {:noreply, assign(socket, error: "Must include join code.")}
