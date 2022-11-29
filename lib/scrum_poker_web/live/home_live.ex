@@ -9,7 +9,7 @@ defmodule ScrumPokerWeb.HomeLive do
 
   def render(assigns) do
     ~H"""
-    <div class="mx-auto max-w-6xl p-12 grid sm:grid-cols-2 items-center">
+    <div class="mx-auto max-w-6xl p-12 grid sm:grid-cols-2 gap-14 items-center">
       <div>
         <h1 class="text-3xl sm:text-4xl font-bold text-gray-50">Ready to play?</h1>
         <div class="text-xl sm:text-2xl font-light tracking-wide text-gray-400">
