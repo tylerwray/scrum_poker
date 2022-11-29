@@ -38,7 +38,7 @@ defmodule ScrumPoker.Poker.Game do
   def join_code_regex, do: ~r/^[a-zA-Z0-9]+$/
 
   def add_deck(%Game{} = game) do
-    %{game | deck: @deck_cards[game.deck_sequence]}
+    %{game | deck: @deck_cards[game.deck_sequence] ++ ["🤷‍♀️", "☕️"]}
   end
 
   def add_deck(value) do
