@@ -24,14 +24,6 @@ defmodule ScrumPokerWeb.SettingsLive do
 
     ~H"""
     <div class="mx-auto max-w-6xl p-12">
-      <div class={"fixed bottom-0 left-0 p-4 z-10 text-right w-full transition-all duration-200 ease-in #{if not @changed, do: "opacity-0 translate-y-20"} border-t-2 border-gray-700 bg-gray-900"}>
-        <.button id="cancel_button" variant="ghost" color="gray" phx-click="reset">
-          Cancel
-        </.button>
-        <.button id="save_button" type="submit" form="user_settings_form">
-          Save
-        </.button>
-      </div>
       <.form
         :let={f}
         id="user_settings_form"
@@ -82,11 +74,10 @@ defmodule ScrumPokerWeb.SettingsLive do
             Deck color
           </legend>
 
-          <p class="block text-base text-gray-50">
-            Deck color
-          </p>
-
           <div class="grid grid-cols-2 md:grid-cols-3 justify-items-center gap-x-2 gap-y-4 group">
+            <p class="block text-base text-gray-50 col-span-2 md:col-span-3">
+              Deck color
+            </p>
             <%= for option <- @deck_color_options do %>
               <input
                 id={"deck_color-#{option.value}"}
@@ -110,6 +101,16 @@ defmodule ScrumPokerWeb.SettingsLive do
           </div>
         </fieldset>
       </.form>
+      <div class={"fixed bottom-0 left-0 p-4 z-10 text-right w-full transition-all duration-200 ease-in #{if not @changed, do: "opacity-0 translate-y-20"} border-t-2 border-gray-700 bg-gray-900"}>
+        <div class="mx-auto max-w-6xl">
+          <.button id="cancel_button" variant="ghost" color="gray" phx-click="reset">
+            Cancel
+          </.button>
+          <.button id="save_button" type="submit" form="user_settings_form">
+            Save
+          </.button>
+        </div>
+      </div>
     </div>
     """
   end
