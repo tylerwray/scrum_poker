@@ -10,7 +10,7 @@ defmodule ScrumPokerWeb.SignInLive do
       <div class="border-gray-700 border-2 py-8 px-4 shadow rounded-lg mt-8 mx-auto w-full max-w-md">
         <div class="pb-4 sm:mx-auto sm:w-full sm:max-w-md">
           <div class="bg-gray-50 rounded-full mx-auto w-24 h-24 grid justify-center items-center">
-            <img class="h-20 p-2 w-20" src="images/poker.png" alt="Workflow" />
+            <img class="h-20 p-2 w-20" src="images/poker.png" alt="Poker" />
           </div>
           <h2 class="mt-6 text-center text-3xl font-base text-gray-100">
             Sign in to your account
