@@ -9,7 +9,7 @@ defmodule ScrumPokerWeb.GameLive do
   def render(assigns) do
     ~H"""
     <%= if is_nil(@current_user) do %>
-      <.anonymous_nav display_name={@display_name}  />
+      <.anonymous_nav display_name={@display_name} />
     <% end %>
     <div class="mx-auto max-w-6xl px-12">
       <h2 class="text-lg font-light text-center">
@@ -21,7 +21,7 @@ defmodule ScrumPokerWeb.GameLive do
       <p class="text-center max-w-xl pb-8 mx-auto">
         <%= @game.description %>
       </p>
-      <div class="grid grid-cols-4 gap-14 justify-items-center">
+      <div class="grid grid-cols-3 sm:grid-cols-4 gap-14 justify-items-center">
         <%= for card <- @game.deck do %>
           <.card
             is_flipped
@@ -42,18 +42,18 @@ defmodule ScrumPokerWeb.GameLive do
     if connected?(socket) do
       ScrumPokerWeb.Endpoint.subscribe(topic(join_code))
 
-      Presence.track(self(), topic(join_code), user_uuid(socket.assigns), %{
+      Presence.track(self(), topic(join_code), user_attribute(socket, :uuid), %{
         online_at: inspect(System.system_time(:second)),
-        display_name: user_display_name(socket.assigns),
-        deck_color: user_deck_color(socket.assigns)
+        display_name: user_attribute(socket, :display_name),
+        deck_color: user_attribute(socket, :deck_color)
       })
     end
 
     socket =
       socket
       |> assign(:current_user, socket.assigns.current_user)
-      |> assign(:deck_color, user_deck_color(socket.assigns))
-      |> assign(:display_name, user_display_name(socket.assigns))
+      |> assign(:deck_color, user_attribute(socket, :deck_color))
+      |> assign(:display_name, user_attribute(socket, :display_name))
       |> assign(:selected_card, nil)
       |> assign_game(join_code)
 
@@ -76,7 +76,7 @@ defmodule ScrumPokerWeb.GameLive do
     ScrumPokerWeb.Endpoint.broadcast(
       topic(socket.assigns.game.join_code),
       "card.selected",
-      %{"user_uuid" => user_uuid(socket.assigns), "card" => card}
+      %{"user_uuid" => user_attribute(socket, :uuid), "card" => card}
     )
 
     {:noreply, assign(socket, :selected_card, card)}
@@ -94,27 +94,11 @@ defmodule ScrumPokerWeb.GameLive do
     "game:#{join_code}"
   end
 
-  defp user_uuid(%{current_user: %{uuid: uuid}}) do
-    uuid
-  end
-
-  defp user_uuid(%{anonymous_user: %{uuid: uuid}}) do
-    uuid
-  end
-
-  defp user_display_name(%{current_user: %{display_name: display_name}}) do
-    display_name
-  end
-
-  defp user_display_name(%{anonymous_user: %{display_name: display_name}}) do
-    display_name
-  end
-
-  defp user_deck_color(%{current_user: %{deck_color: deck_color}}) do
-    deck_color
-  end
-
-  defp user_deck_color(%{anonymous_user: %{deck_color: deck_color}}) do
-    deck_color
+  defp user_attribute(socket, attribute) do
+    case socket.assigns do
+      %{current_user: %{^attribute => value}} -> value
+      %{anonymous_user: %{^attribute => value}} -> value
+      _ -> nil
+    end
   end
 end

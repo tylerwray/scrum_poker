@@ -22,7 +22,7 @@ defmodule ScrumPokerWeb.HostLive do
         <.button phx-click="toggle_cards" variant="outline">Toggle Results</.button>
         <.button phx-click="reset_selections" variant="ghost">Reset</.button>
       </div>
-      <div class="grid grid-cols-4 gap-12">
+      <div class="grid grid-cols-3 sm:grid-cols-4 gap-14 justify-items-center">
         <%= for {user_uuid, %{display_name: display_name, deck_color: deck_color}} <- @users do %>
           <div class="grid justify-items-center gap-1">
             <%= if @selections[user_uuid] do %>
@@ -30,7 +30,7 @@ defmodule ScrumPokerWeb.HostLive do
             <% else %>
               <.waiting />
             <% end %>
-            <div><%= display_name %></div>
+            <div class="text-ellipsis overflow-hidden whitespace-nowrap w-max"><%= display_name %></div>
           </div>
         <% end %>
       </div>
