@@ -43,26 +43,27 @@ defmodule ScrumPokerWeb.Modal do
           -->
           <div
             id="modal-panel"
-            class="relative transform rounded-lg bg-gray-900 text-left shadow-xl sm:my-8 sm:w-full sm:max-w-lg"
+            class="relative transform rounded-lg text-left shadow-xl sm:my-8 sm:w-full sm:max-w-lg"
           >
             <div
-              class="bg-gray-900 px-4 pt-5 pb-4 sm:p-6 sm:pb-4 rounded-md"
+              class="bg-white dark:bg-gray-900 px-4 pt-5 pb-4 sm:p-6 sm:pb-4 rounded-t-md"
               phx-click-away={hide_modal()}
               phx-window-keydown={hide_modal()}
               phx-key="escape"
             >
               <button
+                id="modal-close"
                 phx-click={hide_modal()}
-                class="hover:bg-gray-800 cursor-pointer grid items-center justify-center transition-colors rounded-md absolute right-2 top-2 w-8 h-8"
+                class="hover:bg-stone-200 dark:hover:bg-gray-800 cursor-pointer grid items-center justify-center transition-colors rounded-md absolute right-2 top-2 w-8 h-8 outline-none focus:bg-stone-200 dark:focus:bg-gray-800"
               >
                 <Heroicons.x_mark class="w-6 h-6" />
               </button>
               <div class="sm:flex sm:items-start">
                 <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                  <h3 class="text-2xl font-medium leading-6 text-gray-50" id="modal-title">
+                  <h3 class="text-2xl font-medium leading-6 dark:text-gray-50" id="modal-title">
                     <%= render_slot(@title) %>
                   </h3>
-                  <div class={"text-sm text-gray-200 #{if @sub_title, do: "mt-2"}"}>
+                  <div class={"text-sm text-gray-600 dark:text-gray-200 #{if @sub_title, do: "mt-2"}"}>
                     <%= render_slot(@sub_title) %>
                   </div>
                   <div class="mt-6">
@@ -71,7 +72,7 @@ defmodule ScrumPokerWeb.Modal do
                 </div>
               </div>
             </div>
-            <div class="bg-gray-800 px-4 py-3 flex justify-end gap-2 sm:px-6 rounded-b-md">
+            <div class="bg-stone-100 dark:bg-gray-800 px-4 py-3 flex justify-end gap-2 sm:px-6 rounded-b-md">
               <%= for action_button <- @action_button do %>
                 <%= render_slot(action_button) %>
               <% end %>
@@ -83,7 +84,7 @@ defmodule ScrumPokerWeb.Modal do
     """
   end
 
-  def show_modal(focus_id \\ nil) do
+  def show_modal(focus_id \\ "#modal-close") do
     js =
       JS.show(
         to: "#modal-panel",

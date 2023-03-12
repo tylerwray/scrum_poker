@@ -29,12 +29,12 @@ defmodule ScrumPokerWeb.Flash do
       <div
         id={@root_id}
         role="alert"
-        class={"grid grid-cols-[auto_minmax(120px,240px)_auto] p-4 items-center gap-4 rounded-md fade-in-scale #{@bg_color} bg-opacity-50"}
+        class={"grid grid-cols-[auto_minmax(120px,240px)_auto] p-4 items-center gap-4 rounded-md fade-in-scale #{@bg_color} bg-opacity-70 dark:bg-opacity-50"}
         phx-hook="Flash"
       >
         <div class={"rounded-md w-fit p-2 #{@bg_color}"}>
           <%= if @level == :info do %>
-            <Heroicons.megaphone class="h-6 w-6" />
+            <Heroicons.megaphone class="h-6 w-6 text-white dark:text-black" />
           <% else %>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -42,7 +42,7 @@ defmodule ScrumPokerWeb.Flash do
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-6 h-6"
+              class="w-6 h-6 text-white dark:text-black"
             >
               <path
                 stroke-linecap="round"
@@ -52,12 +52,12 @@ defmodule ScrumPokerWeb.Flash do
             </svg>
           <% end %>
         </div>
-        <p class="truncate font-base text-white">
+        <p class="truncate font-base font-semibold text-white">
           <%= Phoenix.Component.live_flash(@flash, @level) %>
         </p>
         <button
           type="button"
-          class="rounded-md p-2 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white"
+          class="rounded-md p-2 hover:bg-black/10 dark:hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white"
           phx-click={hide_flash(@root_id_selector)}
         >
           <span class="sr-only">Dismiss</span>

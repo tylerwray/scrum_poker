@@ -41,9 +41,9 @@ defmodule ScrumPokerWeb.PokerComponents do
     <div class="card-scene">
       <div class={"card #{@size_classes} #{if @is_flipped, do: "is-flipped"} mx-auto"} {@rest}>
         <div class={"card-face #{@base_classes} #{@color_classes}"} />
-        <div class={"card-face card-back #{@base_classes} #{@color_classes} #{if @is_selected, do: "ring-4 ring-green-600 ring-offset-4 ring-offset-gray-900"}"}>
+        <div class={"card-face card-back #{@base_classes} #{@color_classes} #{if @is_selected, do: "ring-4 ring-green-500 dark:ring-green-600 ring-offset-4 dark:ring-offset-gray-900"}"}>
           <%= if @is_selected do %>
-            <span class="bg-green-600 absolute top-1 right-1 rounded-full p-1">
+            <span class="bg-green-500 dark:bg-green-600 absolute top-1 right-1 rounded-full p-1">
               <Heroicons.check class="w-5 h-5 stroke-2" />
             </span>
           <% end %>

@@ -116,7 +116,7 @@ defmodule ScrumPokerWeb.Layout do
       <button
         id={@id}
         type="button"
-        class="w-full bg-gray-900 border-gray-700 border-2 rounded-md px-3.5 py-2 hover:bg-gray-800/25 focus:outline-none focus:ring-2 focus:ring-purple-400"
+        class="w-full rounded-md px-3.5 py-2 shadow dark:text-gray-100 hover:bg-gray-600/20 dark:hover:bg-gray-300/20 outline-none bg-transparent border-2 border-gray-700 focus-visible:ring-2 ring-offset-2 ring-purple-600 dark:ring-purple-400 dark:ring-offset-gray-900"
         phx-click={show_dropdown("##{@id}-dropdown")}
         phx-hook="Menu"
         aria-haspopup="true"
@@ -130,13 +130,15 @@ defmodule ScrumPokerWeb.Layout do
             />
           <% end %>
           <div class="px-4 text-left">
-            <div class="text-gray-100 font-medium truncate">
+            <div class="dark:text-gray-100 font-medium truncate">
               <%= render_slot(@title) %>
             </div>
-            <div class="text-gray-50 text-sm truncate"><%= render_slot(@subtitle) %></div>
+            <div class="text-gray-500 dark:text-gray-50 text-sm truncate">
+              <%= render_slot(@subtitle) %>
+            </div>
           </div>
           <svg
-            class="flex-shrink-0 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+            class="flex-shrink-0 h-5 w-5 text-gray-900 dark:text-gray-400"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -153,7 +155,7 @@ defmodule ScrumPokerWeb.Layout do
       </button>
       <div
         id={"#{@id}-dropdown"}
-        class="hidden origin-top absolute right-0 left-0 mt-1 rounded-md shadow-lg border-gray-700 border-2 bg-gray-900 ring-1 ring-black ring-opacity-5 divide-y divide-gray-200"
+        class="hidden origin-top absolute right-0 left-0 mt-1 rounded-md shadow-lg border-gray-700 border-2 dark:bg-gray-900 ring-1 ring-black ring-opacity-5 divide-y divide-gray-200"
         role="menu"
         phx-click-away={hide_dropdown("##{@id}-dropdown")}
         aria-labelledby={@id}
@@ -164,7 +166,7 @@ defmodule ScrumPokerWeb.Layout do
               tabindex="-1"
               role="menuitem"
               phx-click={hide_dropdown("##{@id}-dropdown")}
-              class="block px-4 py-2 bg-gray-900 text-sm text-gray-50 hover:bg-gray-800 focus:outline-none focus:bg-gray-800"
+              class="block px-4 py-2 dark:bg-gray-900 text-sm dark:text-gray-50 hover:bg-gray-600/20 dark:hover:bg-gray-800 outline-none focus:bg-gray-600/20 bg-dark:focus:bg-gray-800"
               {link}
             >
               <%= render_slot(link) %>

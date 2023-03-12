@@ -15,24 +15,24 @@ defmodule ScrumPokerWeb.FormComponents do
   @button_colors %{
     "outline" => %{
       "primary" =>
-        "shadow text-purple-400 hover:bg-purple-400/20 bg-transparent border-2 border-current ring-purple-400 ring-offset-gray-900",
+        "shadow text-purple-600 dark:text-purple-400 hover:bg-purple-600/20 dark:hover:bg-purple-400/20 bg-transparent border-2 border-current ring-current dark:ring-offset-gray-900",
       "gray" =>
-        "shadow text-gray-100 hover:bg-gray-300/20 bg-transparent border-2 border-current ring-current ring-offset-gray-900"
+        "shadow text-gray-600 dark:text-gray-100 hover:bg-gray-600/20 dark:hover:bg-gray-300/20 bg-transparent border-2 border-current ring-current dark:ring-offset-gray-900"
     },
     "solid" => %{
       "primary" =>
-        "shadow bg-purple-400 hover:bg-purple-400/80 text-gray-900 ring-purple-400 ring-offset-gray-900",
+        "shadow bg-purple-600 dark:bg-purple-400 hover:bg-purple-500 dark:hover:bg-purple-400/80 text-white dark:text-gray-900 ring-purple-600 dark:ring-purple-400 dark:ring-offset-gray-900",
       "gray" => ""
     },
     "ghost" => %{
       "primary" =>
-        "bg-transparent shadow-none hover:shadow text-purple-400 hover:bg-purple-400/20 ring-purple-400 ring-offset-gray-900",
+        "bg-transparent shadow-none hover:shadow text-purple-600 dark:text-purple-400 hover:bg-purple-600/20 dark:hover:bg-purple-400/20 ring-current dark:ring-offset-gray-900",
       "gray" =>
-        "bg-transparent shadow-none hover:shadow text-gray-100 hover:bg-gray-300/20 ring-current ring-offset-gray-900"
+        "bg-transparent shadow-none hover:shadow text-gray-600 dark:text-gray-100 hover:bg-gray-600/20 dark:hover:bg-gray-300/20 ring-current dark:ring-offset-gray-900"
     },
     "link" => %{
       "primary" =>
-        "shadow-none bg-transparent text-purple-400 hover:underline ring-purple-400 ring-offset-gray-900",
+        "shadow-none bg-transparent text-purple-600 dark:text-purple-400 hover:underline ring-current dark:ring-offset-gray-900",
       "gray" => ""
     }
   }
@@ -79,7 +79,7 @@ defmodule ScrumPokerWeb.FormComponents do
         <%= @label %>
       </legend>
 
-      <p class="block text-base text-gray-50">
+      <p class="block text-base dark:text-gray-50">
         <%= @label %>
       </p>
 
@@ -90,11 +90,11 @@ defmodule ScrumPokerWeb.FormComponents do
             name={@name}
             value={radio.value}
             type="radio"
-            class="mt-[2px] border-gray-700 bg-gray-800 text-purple-400/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-400/90 focus:ring-offset-gray-900"
+            class="mt-[2px] border-gray-700 dark:bg-gray-800 text-purple-600/90 dark:text-purple-400/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-600/90 dark:focus:ring-purple-400/90 dark:focus:ring-offset-gray-900"
             checked={@value == radio.value}
             {assigns_to_attributes(radio)}
           />
-          <label for={"#{@name}-#{radio.value}"} class="text-sm font-medium text-gray-50">
+          <label for={"#{@name}-#{radio.value}"} class="text-sm font-medium dark:text-gray-50">
             <%= render_slot(radio) %>
           </label>
         <% end %>

@@ -33,25 +33,25 @@ defmodule ScrumPokerWeb.SettingsLive do
       >
         <div class="grid h-max gap-y-8 items-start">
           <div role="group" class="grid items-center gap-y-2">
-            <%= label(f, :display_name, class: "block text-base text-gray-50") %>
+            <%= label(f, :display_name, class: "block text-base dark:text-gray-50") %>
             <%= text_input(f, :display_name,
               autocomplete: "name",
               class:
-                "#{if field_has_error?(f, :display_name), do: "border-red-400"} border-1 block w-full rounded-md bg-gray-800 border-gray-700 shadow-sm focus:border-purple-400 focus:ring-purple-400"
+                "#{if field_has_error?(f, :display_name), do: "border-red-600 dark:border-red-400"} border-1 block w-full rounded-md bg-stone-100 dark:bg-gray-800 border-gray-700 shadow-sm focus:border-purple-600 focus:ring-purple-600 dark:focus:border-purple-400 dark:focus:ring-purple-400"
             ) %>
             <%= error_tag(f, :display_name) %>
           </div>
 
           <div role="group" class="grid items-center gap-y-2">
-            <%= label(f, :email, class: "block text-base text-gray-50") %>
+            <%= label(f, :email, class: "block text-base dark:text-gray-50") %>
             <%= text_input(f, :email,
               autocomplete: "email",
               class:
-                "#{if field_has_error?(f, :email), do: "border-red-400"} border-1 block w-full rounded-md bg-gray-800 border-gray-700 shadow-sm focus:border-purple-400 focus:ring-purple-400"
+                "#{if field_has_error?(f, :email), do: "border-red-600 dark:border-red-400"} border-1 block w-full rounded-md bg-stone-100 dark:bg-gray-800 border-gray-700 shadow-sm focus:border-purple-600 focus:ring-purple-600 dark:focus:border-purple-400 dark:focus:ring-purple-400"
             ) %>
             <%= error_tag(f, :email) %>
           </div>
-          <.radio_group
+          <%!-- <.radio_group
             legend="Color Scheme Preference"
             label="Color Scheme"
             name="user[color_scheme]"
@@ -66,7 +66,7 @@ defmodule ScrumPokerWeb.SettingsLive do
             <:radio value="system">
               System
             </:radio>
-          </.radio_group>
+          </.radio_group> --%>
         </div>
         <fieldset class="grid items-center gap-y-2 ">
           <legend class="sr-only">
@@ -74,7 +74,7 @@ defmodule ScrumPokerWeb.SettingsLive do
           </legend>
 
           <div class="grid grid-cols-2 md:grid-cols-3 justify-items-center gap-x-2 gap-y-4 group">
-            <p class="block text-base text-gray-50 col-span-2 md:col-span-3">
+            <p class="block text-base dark:text-gray-50 col-span-2 md:col-span-3">
               Deck color
             </p>
             <%= for option <- @deck_color_options do %>
@@ -92,7 +92,7 @@ defmodule ScrumPokerWeb.SettingsLive do
                   is_selected={option.value == Form.input_value(f, :deck_color)}
                   color={option.value}
                 >
-                  5
+                  7
                 </.card>
                 <div class="pt-2"><%= option.label %></div>
               </label>
@@ -100,7 +100,7 @@ defmodule ScrumPokerWeb.SettingsLive do
           </div>
         </fieldset>
       </.form>
-      <div class={"fixed bottom-0 left-0 p-4 z-10 text-right w-full transition-all duration-200 ease-in #{if not @changed, do: "opacity-0 translate-y-20"} border-t-2 border-gray-700 bg-gray-900"}>
+      <div class={"fixed bottom-0 left-0 p-4 z-10 text-right w-full transition-all duration-200 ease-in #{if not @changed, do: "opacity-0 translate-y-20"} border-t-2 border-stone-200 bg-stone-100 dark:border-gray-700 dark:bg-gray-900"}>
         <div class="mx-auto max-w-6xl">
           <.button id="cancel_button" variant="ghost" color="gray" phx-click="reset">
             Cancel

@@ -9,10 +9,10 @@ defmodule ScrumPokerWeb.SignInLive do
     <div class="container mx-auto pt-[15vh]">
       <div class="border-gray-700 border-2 py-8 px-4 shadow rounded-lg mt-8 mx-auto w-full max-w-md">
         <div class="pb-4 sm:mx-auto sm:w-full sm:max-w-md">
-          <div class="bg-gray-50 rounded-full mx-auto w-24 h-24 grid justify-center items-center">
+          <div class="bg-stone-200 dark:bg-gray-50 rounded-full mx-auto w-24 h-24 grid justify-center items-center">
             <img class="h-20 p-2 w-20" src="images/poker.png" alt="Poker" />
           </div>
-          <h2 class="mt-6 text-center text-3xl font-base text-gray-100">
+          <h2 class="mt-6 text-center text-3xl font-base dark:text-gray-100">
             Sign in to your account
           </h2>
         </div>
@@ -38,7 +38,7 @@ defmodule ScrumPokerWeb.SignInLive do
 
       <div class="relative flex py-5 items-center w-80 mx-auto">
         <div class="flex-grow border-t border-gray-700"></div>
-        <span class="flex-shrink mx-4 text-gray-300">or</span>
+        <span class="flex-shrink mx-4 text-gray-600 dark:text-gray-300">or</span>
         <div class="flex-grow border-t border-gray-700"></div>
       </div>
 

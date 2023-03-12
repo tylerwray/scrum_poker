@@ -13,7 +13,7 @@ defmodule ScrumPoker.Accounts.User do
 
   schema "users" do
     field :avatar_url, :string
-    field :color_scheme, Ecto.Enum, values: [:light, :dark, :system], default: :dark
+    field :color_scheme, Ecto.Enum, values: [:light, :dark, :system], default: :system
     field :deck_color, :string, default: List.first(@preset_deck_colors)
     field :display_name, :string
     field :email, :string

@@ -11,29 +11,38 @@ defmodule ScrumPokerWeb.HomeLive do
     ~H"""
     <div class="mx-auto max-w-6xl p-12 grid sm:grid-cols-2 gap-14 items-center">
       <div>
-        <h1 class="text-3xl sm:text-4xl font-bold text-gray-50">Ready to play?</h1>
-        <div class="text-xl sm:text-2xl font-light tracking-wide text-gray-400">
+        <h1 class="text-3xl sm:text-4xl font-bold dark:text-gray-50">Ready to play?</h1>
+        <div class="text-xl sm:text-2xl font-light tracking-wide text-gray-600 dark:text-gray-400">
           Start a game and invite your team.
         </div>
-        <div class="pt-12 grid justify-start items-center">
-          <.button variant="solid" size="lg" phx-click={show_modal("#description")}>
+        <div class="pt-12 grid items-center w-full">
+          <.button variant="solid" size="lg" phx-click={show_modal()}>
             New Game
           </.button>
 
           <%= if @existing_game do %>
             <div class="relative flex py-3 items-center">
               <div class="flex-grow border-t border-gray-700"></div>
-              <span class="flex-shrink mx-4 text-gray-300">or</span>
+              <span class="flex-shrink mx-4 text-gray-600 dark:text-gray-300">or</span>
               <div class="flex-grow border-t border-gray-700"></div>
             </div>
 
-            <.button
-              variant="outline"
-              color="gray"
-              phx-click={JS.navigate("/games/#{@existing_game.join_code}/host")}
-            >
-              Continue <%= @existing_game.join_code %>
-            </.button>
+            <div class="break-all">
+              <h2 class="text-2xl font-bold pb-2">Existing Game</h2>
+              <div class="text-lg"><%= @existing_game.description %></div>
+              <div class="pb-4 text-sm">
+                <%= @existing_game.join_code %> - <%= @existing_game.deck_sequence
+                |> Atom.to_string()
+                |> String.capitalize() %>
+              </div>
+              <.button
+                variant="outline"
+                color="gray"
+                phx-click={JS.navigate("/games/#{@existing_game.join_code}/host")}
+              >
+                Continue
+              </.button>
+            </div>
           <% end %>
         </div>
       </div>
@@ -43,13 +52,13 @@ defmodule ScrumPokerWeb.HomeLive do
         <:body>
           <form id="new_game_form" action="#" method="POST" class="pb-4" phx-submit="new_game">
             <div role="group" class="grid items-center gap-y-2">
-              <label for="description" class="block text-base text-gray-50">
+              <label for="description" class="block text-base dark:text-gray-50">
                 Description
               </label>
               <input
                 id="description"
                 autocomplete="description"
-                class={"#{if @description_error, do: "border-red-400"} border-1 block w-full rounded-md bg-gray-800 border-gray-700 shadow-sm focus:border-purple-400 focus:ring-purple-400"}
+                class={"#{if @description_error, do: "border-red-600 dark:border-red-400"} border-1 block w-full rounded-md bg-stone-100 dark:bg-gray-800 border-gray-700 shadow-sm focus:border-purple-600 focus:ring-purple-600 dark:focus:border-purple-400 dark:focus:ring-purple-400"}
                 name="description"
                 type="text"
               />
@@ -58,15 +67,17 @@ defmodule ScrumPokerWeb.HomeLive do
             <.radio_group legend="Deck Sequence" label="Deck Sequence" name="deck_sequence">
               <:radio value="fibonacci" checked>
                 Fibonacci
-                <div class="text-gray-400">1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144</div>
+                <div class="text-gray-500 dark:text-gray-400">
+                  1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144
+                </div>
               </:radio>
               <:radio value="linear">
                 Linear
-                <div class="text-gray-400">1, 2, 3, 4, 5, 6, 7, 8, 9, 10</div>
+                <div class="text-gray-500 dark:text-gray-400">1, 2, 3, 4, 5, 6, 7, 8, 9, 10</div>
               </:radio>
               <:radio value="tshirt">
                 T-Shirt
-                <div class="text-gray-400">XS, SM, MD, LG, XL</div>
+                <div class="text-gray-500 dark:text-gray-400">XS, SM, MD, LG, XL</div>
               </:radio>
             </.radio_group>
           </form>

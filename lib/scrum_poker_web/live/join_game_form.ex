@@ -21,13 +21,13 @@ defmodule ScrumPokerWeb.JoinGameForm do
       phx-target={@myself}
     >
       <div role="group" class="grid items-center grid-cols-[1fr_auto] gap-y-2 gap-x-4">
-        <label for="join_code" class="block text-xl font-base text-gray-50 col-span-2">
+        <label for="join_code" class="block text-xl font-base dark:text-gray-50 col-span-2">
           Join a game
         </label>
         <input
           id="join_code"
           autocomplete="join_code"
-          class={"#{if @error, do: "border-red-400"} border-1 block w-full rounded-md bg-gray-800 border-gray-700 shadow-sm focus:border-purple-400 focus:ring-purple-400"}
+          class={"#{if @error, do: "border-red-600 dark:border-red-400"} border-1 block w-full rounded-md bg-stone-100 dark:bg-gray-800 border-gray-700 shadow-sm focus:border-purple-600 dark:focus:border-purple-400 focus:ring-purple-600 dark:focus:ring-purple-400"}
           max-length="4"
           name="join_code"
           placeholder="J43K"
@@ -36,7 +36,7 @@ defmodule ScrumPokerWeb.JoinGameForm do
         <.button variant="outline" type="submit">
           <span class="pr-2">Join</span> <Heroicons.arrow_right class="w-4 h-4 stroke-2" />
         </.button>
-        <span class="text-red-400 text-sm h-12 col-span-2"><%= @error %></span>
+        <span class="text-red-600 dark:text-red-400 text-sm h-12 col-span-2"><%= @error %></span>
       </div>
     </form>
     """
