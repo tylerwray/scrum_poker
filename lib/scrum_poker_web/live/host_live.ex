@@ -118,7 +118,7 @@ defmodule ScrumPokerWeb.HostLive do
 
   defp waiting(assigns) do
     ~H"""
-    <div class="grid grid-cols-3 items-center px-2 w-24 h-36 bg-gray-800/50 rounded-md">
+    <div class="grid grid-cols-3 items-center px-2 w-24 h-36 bg-gray-300/50 dark:bg-gray-800/50 rounded-md">
       <div class="animate-waiting mx-auto">
         <.dot class="stroke-[4px] text-white text-2xl" />
       </div>
