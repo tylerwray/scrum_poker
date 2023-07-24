@@ -19,7 +19,7 @@ defmodule ScrumPoker.Poker do
   Check if a game code exists.
   """
   def join_code_exists?(join_code) do
-    Repo.exists?(from g in Game, where: g.join_code == ^join_code)
+    Repo.exists?(from(g in Game, where: g.join_code == ^join_code))
   end
 
   @doc """
@@ -44,7 +44,7 @@ defmodule ScrumPoker.Poker do
   Delete all prior games created by the user given.
   """
   def delete_existing_user_games(user_uuid) do
-    Repo.delete_all(from g in Game, where: g.created_by == ^user_uuid)
+    Repo.delete_all(from(g in Game, where: g.created_by == ^user_uuid))
   end
 
   @code_characters ~w(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z 0 1 2 3 4 5 6 7 8 9)

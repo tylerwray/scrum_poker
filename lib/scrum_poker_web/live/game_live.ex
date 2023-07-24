@@ -11,16 +11,10 @@ defmodule ScrumPokerWeb.GameLive do
     <%= if is_nil(@current_user) do %>
       <.anonymous_nav display_name={@display_name} />
     <% end %>
-    <div class="mx-auto max-w-6xl px-12">
-      <h2 class="text-lg font-light text-center">
-        Game Code
-      </h2>
-      <h1 class="text-4xl font-bold text-center pb-4">
-        <%= @game.join_code %>
-      </h1>
-      <p class="text-center max-w-xl pb-8 mx-auto">
-        <%= @game.description %>
-      </p>
+    <div class="grid gap-4 mx-auto max-w-6xl px-12">
+      <div class="px-16">
+        <.game_description game={@game} />
+      </div>
       <div class="grid grid-cols-3 sm:grid-cols-4 gap-14 justify-items-center">
         <%= for card <- @game.deck do %>
           <.card

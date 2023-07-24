@@ -8,8 +8,38 @@ defmodule ScrumPokerWeb.Layout do
   def anonymous_nav(assigns) do
     ~H"""
     <nav class="grid sm:grid-cols-[1fr_auto] grid-cols-1 gap-4 items-center sm:justify-items-start justify-items-center p-6 max-w-6xl mx-auto">
-      <.link role="menuitem" navigate="/signin" class="w-min">
-        <.button variant="ghost" size="lg">
+      <.link
+        role="menuitem"
+        navigate="/signin"
+        class="outline-none px-2 py-1 flex gap-2 items-center rounded-lg hover text-gray-600 dark:text-gray-100 hover:bg-gray-600/10 dark:hover:bg-gray-300/20"
+      >
+        <%!-- Spade icon --%>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-suit-spade-fill"
+          viewBox="0 0 16 16"
+        >
+          <path d="M7.184 11.246A3.5 3.5 0 0 1 1 9c0-1.602 1.14-2.633 2.66-4.008C4.986 3.792 6.602 2.33 8 0c1.398 2.33 3.014 3.792 4.34 4.992C13.86 6.367 15 7.398 15 9a3.5 3.5 0 0 1-6.184 2.246 19.92 19.92 0 0 0 1.582 2.907c.231.35-.02.847-.438.847H6.04c-.419 0-.67-.497-.438-.847a19.919 19.919 0 0 0 1.582-2.907z" />
+        </svg>
+        <span>Sign in</span>
+      </.link>
+      <h2 class="text-lg"><%= @display_name %></h2>
+    </nav>
+    """
+  end
+
+  def nav(assigns) do
+    ~H"""
+    <%= if @current_user do %>
+      <nav class="grid sm:grid-cols-[1fr_auto] grid-cols-1 gap-4 items-center sm:justify-items-start justify-items-center px-12 py-6 max-w-6xl mx-auto">
+        <.link
+          role="menuitem"
+          navigate="/home"
+          class="outline-none px-2 py-1 flex gap-2 items-center rounded-lg hover text-gray-600 dark:text-gray-100 hover:bg-gray-600/10 dark:hover:bg-gray-300/20"
+        >
           <%!-- Spade icon --%>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -21,35 +51,9 @@ defmodule ScrumPokerWeb.Layout do
           >
             <path d="M7.184 11.246A3.5 3.5 0 0 1 1 9c0-1.602 1.14-2.633 2.66-4.008C4.986 3.792 6.602 2.33 8 0c1.398 2.33 3.014 3.792 4.34 4.992C13.86 6.367 15 7.398 15 9a3.5 3.5 0 0 1-6.184 2.246 19.92 19.92 0 0 0 1.582 2.907c.231.35-.02.847-.438.847H6.04c-.419 0-.67-.497-.438-.847a19.919 19.919 0 0 0 1.582-2.907z" />
           </svg>
-          <span class="pl-1">Sign in</span>
-        </.button>
-      </.link>
-      <h2 class="text-lg"><%= @display_name %></h2>
-    </nav>
-    """
-  end
-
-  def nav(assigns) do
-    ~H"""
-    <%= if @current_user do %>
-      <nav class="grid sm:grid-cols-[1fr_auto] grid-cols-1 gap-4 items-center sm:justify-items-start justify-items-center p-6 max-w-6xl mx-auto">
-        <.link role="menuitem" navigate="/home" class="outline-none">
-          <.button variant="ghost" size="lg">
-            <%!-- Spade icon --%>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-suit-spade-fill"
-              viewBox="0 0 16 16"
-            >
-              <path d="M7.184 11.246A3.5 3.5 0 0 1 1 9c0-1.602 1.14-2.633 2.66-4.008C4.986 3.792 6.602 2.33 8 0c1.398 2.33 3.014 3.792 4.34 4.992C13.86 6.367 15 7.398 15 9a3.5 3.5 0 0 1-6.184 2.246 19.92 19.92 0 0 0 1.582 2.907c.231.35-.02.847-.438.847H6.04c-.419 0-.67-.497-.438-.847a19.919 19.919 0 0 0 1.582-2.907z" />
-            </svg>
-            <span class="pl-1">Play</span>
-          </.button>
+          <span>Home</span>
         </.link>
-        <.dropdown id="user-dropdown">
+        <.dropdown id="user-tile">
           <:img src={@current_user.avatar_url} />
           <:title><%= @current_user.display_name %></:title>
           <:subtitle><%= @current_user.email %></:subtitle>
@@ -155,7 +159,7 @@ defmodule ScrumPokerWeb.Layout do
       </button>
       <div
         id={"#{@id}-dropdown"}
-        class="hidden origin-top absolute right-0 left-0 mt-1 rounded-md shadow-lg border-gray-700 border-2 dark:bg-gray-900 ring-1 ring-black ring-opacity-5 divide-y divide-gray-200"
+        class="hidden origin-top absolute right-0 left-0 mt-1 rounded-md shadow-lg bg-white z-10 border-gray-700 border-2 dark:bg-gray-900 ring-1 ring-black ring-opacity-5 divide-y divide-gray-200"
         role="menu"
         phx-click-away={hide_dropdown("##{@id}-dropdown")}
         aria-labelledby={@id}

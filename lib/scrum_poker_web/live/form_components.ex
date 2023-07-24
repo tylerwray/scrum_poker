@@ -4,6 +4,7 @@ defmodule ScrumPokerWeb.FormComponents do
   alias Phoenix.LiveView.JS
 
   attr :class, :string, default: ""
+  attr :disabled, :boolean, default: false
   attr :color, :string, default: "primary"
   attr :form, :string
   attr :rest, :global
@@ -15,34 +16,35 @@ defmodule ScrumPokerWeb.FormComponents do
   @button_colors %{
     "outline" => %{
       "primary" =>
-        "shadow text-purple-600 dark:text-purple-400 hover:bg-purple-600/20 dark:hover:bg-purple-400/20 bg-transparent border-2 border-current ring-current dark:ring-offset-gray-900",
+        "shadow text-purple-600 dark:text-purple-400 enabled:hover:bg-purple-600/20 dark:enabled:hover:bg-purple-400/20 bg-transparent border-2 border-current ring-current dark:ring-offset-gray-900",
       "gray" =>
-        "shadow text-gray-600 dark:text-gray-100 hover:bg-gray-600/20 dark:hover:bg-gray-300/20 bg-transparent border-2 border-current ring-current dark:ring-offset-gray-900"
+        "shadow text-gray-600 dark:text-gray-100 enabled:hover:bg-gray-600/20 dark:enabled:hover:bg-gray-300/20 bg-transparent border-2 border-current ring-current dark:ring-offset-gray-900"
     },
     "solid" => %{
       "primary" =>
-        "shadow bg-purple-600 dark:bg-purple-400 hover:bg-purple-500 dark:hover:bg-purple-400/80 text-white dark:text-gray-900 ring-purple-600 dark:ring-purple-400 dark:ring-offset-gray-900",
+        "shadow bg-purple-600 dark:bg-purple-400 enabled:hover:bg-purple-500 dark:enabled:hover:bg-purple-400/80 text-white dark:text-gray-900 ring-purple-600 dark:ring-purple-400 dark:ring-offset-gray-900",
       "gray" => ""
     },
     "ghost" => %{
       "primary" =>
-        "bg-transparent shadow-none hover:shadow text-purple-600 dark:text-purple-400 hover:bg-purple-600/20 dark:hover:bg-purple-400/20 ring-current dark:ring-offset-gray-900",
+        "bg-transparent shadow-none enabled:hover:shadow text-purple-600 dark:text-purple-400 enabled:hover:bg-purple-600/20 dark:enabled:hover:bg-purple-400/20 ring-current dark:ring-offset-gray-900",
       "gray" =>
-        "bg-transparent shadow-none hover:shadow text-gray-600 dark:text-gray-100 hover:bg-gray-600/20 dark:hover:bg-gray-300/20 ring-current dark:ring-offset-gray-900"
+        "bg-transparent shadow-none enabled:hover:shadow text-gray-600 dark:text-gray-100 enabled:hover:bg-gray-600/20 dark:enabled:hover:bg-gray-300/20 ring-current dark:ring-offset-gray-900"
     },
     "link" => %{
       "primary" =>
-        "shadow-none bg-transparent text-purple-600 dark:text-purple-400 hover:underline ring-current dark:ring-offset-gray-900",
+        "shadow-none bg-transparent text-purple-600 dark:text-purple-400 enabled:hover:underline ring-current dark:ring-offset-gray-900",
       "gray" => ""
     }
   }
 
   @button_sizes %{
+    "sm" => "h-6 min-w-[2.5rem] text-sm font-light px-4",
     "base" => "h-10 min-w-[2.5rem] text-md px-4",
     "lg" => "h-12 min-w-[3rem] text-lg px-6"
   }
 
-  @base_button_classes "inline-flex appearance-none items-center justify-center select-none relative whitespace-nowrap align-middle focus:outline-none focus-visible:ring-2 ring-offset-4 rounded-md font-semibold leading-tight transition-colors duration-200"
+  @base_button_classes "inline-flex appearance-none items-center justify-center select-none relative whitespace-nowrap align-middle focus:outline-none focus-visible:ring-2 ring-offset-4 rounded-md font-semibold leading-tight transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
 
   def button(assigns) do
     extra = assigns_to_attributes(assigns, [:class, :color, :rest, :size, :variant])
@@ -55,7 +57,11 @@ defmodule ScrumPokerWeb.FormComponents do
       |> assign(:extra, extra)
 
     ~H"""
-    <button class={"#{@base_classes} #{@size_classes} #{@class} #{@color_classes}"} {@extra} {@rest}>
+    <button
+      class={"#{@base_classes} #{@size_classes} #{@class} #{@color_classes}"}
+      {@extra}
+      {@rest}
+    >
       <%= render_slot(@inner_block) %>
     </button>
     """

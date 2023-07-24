@@ -6,16 +6,13 @@ import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
 import topbar from "../vendor/topbar";
 
-let csrfToken = document
-  .querySelector("meta[name='csrf-token']")
-  .getAttribute("content");
+let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
 
 let Hooks = {};
 
 Hooks.Flash = {
   mounted() {
-    let hide = () =>
-      liveSocket.execJS(this.el, this.el.getAttribute("phx-click"));
+    let hide = () => liveSocket.execJS(this.el, this.el.getAttribute("phx-click"));
     this.timer = setTimeout(() => hide(), 8000);
     this.el.addEventListener("phx:hide-start", () => clearTimeout(this.timer));
     this.el.addEventListener("mouseover", () => {
@@ -41,8 +38,35 @@ topbar.config({
 window.addEventListener("phx:page-loading-start", (info) => topbar.show());
 window.addEventListener("phx:page-loading-stop", (info) => topbar.hide());
 
-window.addEventListener("card:toggle", e => {
-  e.target.classList.toggle("is-flipped")
+window.addEventListener("card:toggle", (e) => {
+  e.target.classList.toggle("is-flipped");
+});
+
+let copyButtonTimer;
+
+window.addEventListener("game:copy_share_link", (e) => {
+  clearTimeout(copyButtonTimer);
+
+  if ("clipboard" in navigator) {
+    navigator.clipboard.writeText(e.detail.link);
+
+    let copyButton = document.getElementById("copy-game-link-button");
+    let copiedButton = document.getElementById("copied-game-link");
+
+    copyButton.classList.add("hidden");
+    copyButton.classList.remove("flex");
+    copiedButton.classList.remove("hidden");
+    copiedButton.classList.add("flex");
+
+    copyButtonTimer = setTimeout(() => {
+      copyButton.classList.remove("hidden");
+      copyButton.classList.add("flex");
+      copiedButton.classList.add("hidden");
+      copiedButton.classList.remove("flex");
+    }, 2500);
+  } else {
+    alert("Sorry, your browser does not support clipboard copy.");
+  }
 });
 
 // connect if there are any LiveViews on the page

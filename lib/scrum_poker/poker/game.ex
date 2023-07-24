@@ -44,4 +44,6 @@ defmodule ScrumPoker.Poker.Game do
   def add_deck(value) do
     value
   end
+
+  def fibonacci_choices, do: @deck_cards[:fibonacci]
 end

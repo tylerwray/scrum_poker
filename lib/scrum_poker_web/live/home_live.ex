@@ -3,6 +3,7 @@ defmodule ScrumPokerWeb.HomeLive do
   use Phoenix.Component
 
   import ScrumPokerWeb.Modal
+  import ScrumPokerWeb.PokerComponents
   alias ScrumPokerWeb.JoinGameForm
   alias ScrumPoker.Poker
   alias Phoenix.LiveView.JS
@@ -15,7 +16,7 @@ defmodule ScrumPokerWeb.HomeLive do
         <div class="text-xl sm:text-2xl font-light tracking-wide text-gray-600 dark:text-gray-400">
           Start a game and invite your team.
         </div>
-        <div class="pt-12 grid items-center w-full">
+        <div class="grid pt-12 w-48">
           <.button variant="solid" size="lg" phx-click={show_modal()}>
             New Game
           </.button>
@@ -27,14 +28,8 @@ defmodule ScrumPokerWeb.HomeLive do
               <div class="flex-grow border-t border-gray-700"></div>
             </div>
 
-            <div class="break-all">
-              <h2 class="text-2xl font-bold pb-2">Existing Game</h2>
-              <div class="text-lg"><%= @existing_game.description %></div>
-              <div class="pb-4 text-sm">
-                <%= @existing_game.join_code %> - <%= @existing_game.deck_sequence
-                |> Atom.to_string()
-                |> String.capitalize() %>
-              </div>
+            <div class="grid gap-2">
+              <.game_description game={@existing_game} />
               <.button
                 variant="outline"
                 color="gray"

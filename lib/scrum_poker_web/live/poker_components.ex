@@ -1,6 +1,8 @@
 defmodule ScrumPokerWeb.PokerComponents do
   use ScrumPokerWeb, :component
 
+  alias Phoenix.LiveView.JS
+
   @base_classes "absolute w-full h-full text-white rounded-md cursor-pointer focus:outline-none focus:ring flex justify-center items-center"
 
   # 2/3 ratio w/h
@@ -29,7 +31,7 @@ defmodule ScrumPokerWeb.PokerComponents do
   slot(:inner_block)
 
   def card(assigns) do
-    color = Map.get(assigns, :color) ||  "pink_purple_gradient"
+    color = Map.get(assigns, :color) || "pink_purple_gradient"
 
     assigns =
       assigns
@@ -50,6 +52,56 @@ defmodule ScrumPokerWeb.PokerComponents do
           <%= render_slot(@inner_block) %>
         </div>
       </div>
+    </div>
+    """
+  end
+
+  attr :game, ScrumPoker.Poker.Game
+
+  def game_description(assigns) do
+    assigns =
+      assigns
+      |> assign(
+        :share_game_link,
+        ScrumPokerWeb.Router.Helpers.game_url(
+          ScrumPokerWeb.Endpoint,
+          :index,
+          assigns.game.join_code
+        )
+      )
+      |> assign(
+        :deck_sequence,
+        assigns.game.deck_sequence
+        |> Atom.to_string()
+        |> String.capitalize()
+      )
+
+    ~H"""
+    <div>
+      <div
+        class="group flex items-center gap-2"
+        phx-click={JS.dispatch("game:copy_share_link", detail: %{link: @share_game_link})}
+      >
+        <h2 class="cursor-pointer text-4xl font-bold">
+          <%= @game.join_code %>
+        </h2>
+        <.button
+          class="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 w-24"
+          variant="ghost"
+          color="gray"
+          size="sm"
+        >
+          <div id="copy-game-link-button" class="flex gap-2 items-center">
+            <Heroicons.link class="w-4 h-4" /> Copy link
+          </div>
+          <div id="copied-game-link" class="hidden gap-2 items-center">
+            <Heroicons.check class="w-5 h-5 stroke-green-600 stroke-2" /> Copied
+          </div>
+        </.button>
+      </div>
+      <p class="max-w-xl">
+        <%= @deck_sequence %> - <%= @game.description %>
+      </p>
     </div>
     """
   end
