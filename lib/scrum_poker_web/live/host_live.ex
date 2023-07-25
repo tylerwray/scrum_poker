@@ -58,7 +58,7 @@ defmodule ScrumPokerWeb.HostLive do
           <Heroicons.arrow_path_rounded_square class="w-6 h-6" /> &nbsp;
           Reset
         </.button>
-        <.button phx-click="toggle_cards" variant="solid">
+        <.button phx-click="toggle_cards" variant="solid" class="w-20">
           <%= if @is_results_shown do %>
             Hide
           <% else %>
