@@ -16,6 +16,6 @@ defmodule ScrumPokerWeb.Plugs.SubdomainRedirect do
   end
 
   defp has_subdomain?(host) do
-    Regex.match?(~r(https?:\/\/[a-z0-9]+[.]scrumpoker[.]org), host)
+    Regex.match?(~r([a-z0-9]+[.]scrumpoker[.]org), host)
   end
 end

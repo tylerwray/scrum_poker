@@ -10,6 +10,8 @@ defmodule ScrumPokerWeb.Endpoint do
     signing_salt: "P7fh9CfZ"
   ]
 
+  plug ScrumPokerWeb.Plugs.SubdomainRedirect
+
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
   # Serve at "/" the static files from "priv/static" directory.
@@ -46,6 +48,5 @@ defmodule ScrumPokerWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug ScrumPokerWeb.Plugs.SubdomainRedirect
   plug ScrumPokerWeb.Router
 end
